@@ -257,7 +257,7 @@ RUN mkdir -p /tmp/build && cd /tmp/build && \
 # EDA TOOLS
 FROM ubuntu:20.04
 
-LABEL maintainer="Victor Muñoz <victor@2c-b.cl>"
+LABEL maintainer="Tiago Rezende <tiagosr@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -281,7 +281,7 @@ RUN apt update && apt -y install --no-install-recommends \
     libftdi1-2 \
     libhidapi-hidraw0 \
 # dev misc
-    git make \
+    git make ghdl \
 # dev verilator
     g++ \
     && \
@@ -369,6 +369,15 @@ ARG VERILATOR_COMMIT=master
 LABEL verilator_commit=$VERILATOR_COMMIT
 COPY --from=verilator /tmp/verilator/usr/local /usr/local/
 COPY --from=verilator /tmp/build/verilator.commit /usr/local/commits
+
+# adding my version of PipelineC with support for nextpnr-gowin
+ARG PIPELINEC_COMMIT=master
+LABEL pipelinec_commit=$PIPELINEC_COMMIT
+RUN mkdir -p /opt/pipelinec && \
+    cd /opt/pipelinec && \
+    git clone https://github.com/tiagosr/PipelineC.git .
+
+ENV PATH="$PATH:/opt/pipelinec/bin"
 
 VOLUME ["/workspace"]
 WORKDIR /workspace

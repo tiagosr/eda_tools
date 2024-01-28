@@ -377,7 +377,7 @@ RUN mkdir -p /opt/pipelinec && \
     cd /opt/pipelinec && \
     git clone https://github.com/tiagosr/PipelineC.git .
 
-ENV PATH="$PATH:/opt/pipelinec/bin"
+ENV PATH="$PATH:/opt/pipelinec/src"
 
 VOLUME ["/workspace"]
 WORKDIR /workspace
